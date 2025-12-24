@@ -3,6 +3,8 @@ package com.nvp18.jobtracker.controller;
 import com.nvp18.jobtracker.dto.JobApplicationDTO;
 import com.nvp18.jobtracker.dto.ApplicationResponseDTO;
 import com.nvp18.jobtracker.dto.UpdateStatusDTO;
+import com.nvp18.jobtracker.service.JobApplicationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class JobTrackerController {
+
+    @Autowired
+    private JobApplicationService jobApplicationService;
 
     @GetMapping("/job-applications")
     public ResponseEntity<ApplicationResponseDTO> getAllJobApplications() {
@@ -27,9 +32,10 @@ public class JobTrackerController {
 
     @PostMapping("/job-applications")
     public ResponseEntity<ApplicationResponseDTO> addJobApplication(@RequestBody JobApplicationDTO jobApplication) {
+        JobApplicationDTO jobApplicationDTO = jobApplicationService.addJobApplication(jobApplication);
         ApplicationResponseDTO applicationResponseDTO = new ApplicationResponseDTO();
-        applicationResponseDTO.setData(List.of(jobApplication));
-        applicationResponseDTO.setMessage("Added new job application with id: "+jobApplication.getJobId());
+        applicationResponseDTO.setData(List.of(jobApplicationDTO));
+        applicationResponseDTO.setMessage("Added new job application with id: "+jobApplicationDTO.getJobId());
         return ResponseEntity.status(HttpStatus.CREATED).body(applicationResponseDTO);
     }
 
