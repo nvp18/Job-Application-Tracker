@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class JobApplicationDTO {
 
-    private String jobId;
+    private Integer jobId;
     private String jobTitle;
     private String companyName;
     private String jobLink;

@@ -1,5 +1,6 @@
 package com.nvp18.jobtracker.controller;
 
+import com.nvp18.jobtracker.constants.ApplicationStatus;
 import com.nvp18.jobtracker.dto.JobApplicationDTO;
 import com.nvp18.jobtracker.dto.ApplicationResponseDTO;
 import com.nvp18.jobtracker.dto.UpdateStatusDTO;
@@ -21,11 +22,9 @@ public class JobTrackerController {
 
     @GetMapping("/job-applications")
     public ResponseEntity<ApplicationResponseDTO> getAllJobApplications() {
-        List<JobApplicationDTO> jobApplicationDTOList = new ArrayList<>();
-        jobApplicationDTOList.add(new JobApplicationDTO());
-        jobApplicationDTOList.add(new JobApplicationDTO());
+        List<JobApplicationDTO> jobApplicationDTOS = jobApplicationService.getAllJobApplications(1);
         ApplicationResponseDTO responseDTO = new ApplicationResponseDTO();
-        responseDTO.setData(jobApplicationDTOList);
+        responseDTO.setData(jobApplicationDTOS);
         responseDTO.setMessage("Fetched All Applications");
         return ResponseEntity.ok(responseDTO);
     }
@@ -40,15 +39,19 @@ public class JobTrackerController {
     }
 
     @PatchMapping("/job-applications/{id}/status")
-    public ResponseEntity<ApplicationResponseDTO> updateJobApplicationStatus(@PathVariable String id
+    public ResponseEntity<ApplicationResponseDTO> updateJobApplicationStatus(@PathVariable Integer id
             , @RequestBody UpdateStatusDTO updateStatusDTO) {
-        ApplicationResponseDTO applicationResponseDTO = new ApplicationResponseDTO();
-        applicationResponseDTO.setMessage("Updated job application with id: "+id);
-        return ResponseEntity.status(HttpStatus.OK).body(applicationResponseDTO);
+        JobApplicationDTO jobApplicationDTO = jobApplicationService.updateJobApplication(id, updateStatusDTO.getStatus());
+        ApplicationResponseDTO responseDTO = ApplicationResponseDTO.builder()
+                .data(List.of(jobApplicationDTO))
+                .message("Updated Job Status")
+                .build();
+        return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/job-applications/{id}")
-    public ResponseEntity<Void> deleteJobApplication(@PathVariable String id) {
+    public ResponseEntity<Void> deleteJobApplication(@PathVariable Integer id) {
+        jobApplicationService.deleteJobApplication(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

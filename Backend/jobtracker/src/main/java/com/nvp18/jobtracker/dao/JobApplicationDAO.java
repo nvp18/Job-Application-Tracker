@@ -17,9 +17,14 @@ import java.time.LocalDateTime;
 public class JobApplicationDAO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "job_app_seq")
+    @SequenceGenerator(
+            name = "job_app_seq",
+            sequenceName = "job_app_seq",
+            allocationSize = 1
+    )
     @Column(name = "jobId")
-    private String jobId;
+    private Integer jobId;
 
     @Column(name = "jobTitle", nullable = false)
     private String jobTitle;
@@ -47,4 +52,7 @@ public class JobApplicationDAO {
     @Column(name="location",nullable = false)
     private String location;
 
+    @ManyToOne
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
 }

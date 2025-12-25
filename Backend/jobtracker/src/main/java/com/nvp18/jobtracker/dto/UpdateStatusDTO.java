@@ -10,5 +10,5 @@ import lombok.*;
 @Builder
 public class UpdateStatusDTO {
 
-    private ApplicationStatus applicationStatus;
+    private ApplicationStatus status;
 }
