@@ -9,9 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApplicationResponseDTO {
+public class ApplicationResponseDTO<T> {
 
     private String message;
     private String error;
-    private List<JobApplicationDTO> data;
+    private List<T> data;
 }
