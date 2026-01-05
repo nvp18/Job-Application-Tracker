@@ -1,6 +1,5 @@
 package com.nvp18.jobtracker.controller;
 
-import com.nvp18.jobtracker.constants.ApplicationStatus;
 import com.nvp18.jobtracker.dto.JobApplicationDTO;
 import com.nvp18.jobtracker.dto.ApplicationResponseDTO;
 import com.nvp18.jobtracker.dto.UpdateStatusDTO;
